@@ -13,6 +13,7 @@ const defaultState={
 	isPaused:false,
 	isShowMiniPlayer:false,
 	isLoading:false,
+	//duration:'',
 
 }
 
@@ -38,8 +39,10 @@ const reducer = (state=defaultState,action)=>{
 						item:action.item,
 						mp3Source:action.mp3Source,
 					},...state.playList],
+					currentSongNum:0,
 					
-				};}
+				};
+		}
 		case 'ADD_PLAYLIST': {
 			//console.log('redux:Playlist receive: ',action.playList)
 			return{
@@ -50,14 +53,14 @@ const reducer = (state=defaultState,action)=>{
 		};
 
 		case 'IS_LOADING_TRUE': 
-		{	console.log('IS_LOADING_TRUE');
+		{	//console.log('IS_LOADING_TRUE');
 			return{
 					...state,
 					isLoading:true,
 				};
 		};
 		case 'IS_LOADING_FALSE': {
-			console.log('IS_LOADING_FALSE');
+			//console.log('IS_LOADING_FALSE');
 			return{
 					...state,
 					isLoading:false,
@@ -65,7 +68,7 @@ const reducer = (state=defaultState,action)=>{
 		};
 		case 'DEL_PLAYLIST': {
 
-			state.whoosh.stop();
+			if(state.isPlaying) state.whoosh.stop();
 			return{
 			...state,
 			playList:[],
@@ -107,81 +110,99 @@ const reducer = (state=defaultState,action)=>{
 		case 'LOAD_SONG':
 		{		
 			var flag=false;
-			if(state.isPlaying)
-			{	
-				state.whoosh.stop();
-				state.whoosh = new Sound((state.playList[state.currentSongNum].mp3Source), Sound.MAIN_BUNDLE, (error) => {
-				if (error) {
-					//console.log('failed to load the sound', error);
-					
-				}
-					// loaded successfully
-					//console.log('duration in seconds: ' + state.whoosh.getDuration() + 'number of channels: ' + state.whoosh.getNumberOfChannels());
-
-					state.whoosh.play();
-					flag=true;
-				});
-			}
-			else{
-				state.whoosh = new Sound((state.playList[state.currentSongNum].mp3Source), Sound.MAIN_BUNDLE, (error) => {
-				if (error) {
-					//console.log('failed to load the sound', error);
-					
-				}
-					// loaded successfully
-					//console.log('duration in seconds: ' + state.whoosh.getDuration() + 'number of channels: ' + state.whoosh.getNumberOfChannels());
-
-					state.whoosh.play();
-					//state.isPlaying=true;
-					flag=true;
-				});
-			}
+					   
+		   	if (!state.playList.length==0) {
+		   		if(state.isPlaying)
+						{	
+							state.whoosh.stop();
+							state.whoosh = new Sound((state.playList[state.currentSongNum].mp3Source), Sound.MAIN_BUNDLE, (error) => {
+							if (error) {
+								//console.log('failed to load the sound', error);
+								
+							}
+								// loaded successfully
+								//console.log('duration in seconds: ' + state.whoosh.getDuration() + 'number of channels: ' + state.whoosh.getNumberOfChannels());
+			
+								state.whoosh.play();
+								//state.duration=state.whoosh.getDuration();
+								flag=true;
+							});
+						}
+						else{
+							state.whoosh = new Sound((state.playList[state.currentSongNum].mp3Source), Sound.MAIN_BUNDLE, (error) => {
+							if (error) {
+								//console.log('failed to load the sound', error);
+								
+							}
+								// loaded successfully
+								//console.log('duration in seconds: ' + state.whoosh.getDuration() + 'number of channels: ' + state.whoosh.getNumberOfChannels());
+			
+								state.whoosh.play();
+								//state.duration=state.whoosh.getDuration();
+								//state.isPlaying=true;
+								flag=true;
+							});
+						}
+		   }
+		   
 			
 			return{
 					...state,
 					whoosh:state.whoosh,
 					isPlaying:true,
 					isShowMiniPlayer:true,
+					//duration:state.whoosh.getDuration(),
 				};
 		}
 		case 'PAUSE_SONG':
 		{	
 			
-			if(state.isPlaying)
-			{	
-				//console.log('PAUSE_SONG');
-				state.whoosh.pause();
-				state.isPlaying=false;
-			}
-			return{
-				...state,
-				whoosh:state.whoosh,
-				isPlaying:false,
-			};
+			   
+   		if (!state.playList.length==0) {
+   			if(state.isPlaying)
+				{	
+					//console.log('PAUSE_SONG');
+					state.whoosh.pause();
+					state.isPlaying=false;
+				}
+				return{
+					...state,
+					whoosh:state.whoosh,
+					isPlaying:false,
+				};
+   			}
+   		break;
+   
 		}
 		case 'STOP_SONG':
 		{	
-			
-			if(state.isPlaying)
-			{	
-				//console.log('STOP_SONG');
-				state.whoosh.stop();
-				state.isPlaying=false;
-			}
-			return{
-				...state,
-				whoosh:state.whoosh,
-				isPlaying:false,
-			};
+   		if (!state.playList.length==0) {
+   			if(state.isPlaying)
+				{	
+					//console.log('STOP_SONG');
+					state.whoosh.stop();
+					state.isPlaying=false;
+				}
+				return{
+					...state,
+					whoosh:state.whoosh,
+					isPlaying:false,
+				};
+   			}
+   		break;
 		}
 
 		case 'START_SONG':
 		{	
-			
+				
 
 				//console.log('START_SONG');
-				state.whoosh.play();
+						    
+		    if (!state.playList.length==0) {
+		    	state.whoosh.play();
 				state.isPlaying=true;
+		    }
+		    
 			
 			return{
 				...state,

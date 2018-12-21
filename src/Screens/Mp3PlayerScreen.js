@@ -28,27 +28,29 @@ class Mp3PlayerScreen extends Component<Props> {
 
 	render(){
 		return(
-				<View style={{backgroundColor: '#e4f1fe'}}>
+				<View style={{backgroundColor: '#f39c12'}}>
 					{this.props.currentSongNum!==''&&
 					<View>
 						{this.props.playList.length!==0&&
 							<View>
-								<Text style={styles.TieuDe}>{this.props.playList[this.props.currentSongNum].item.title}</Text>
-								<Text style={styles.CaSi}>{this.props.playList[this.props.currentSongNum].item.singer_name}</Text>
+								<Text style={styles.TieuDeTop}>{this.props.playList[this.props.currentSongNum].item.title}</Text>
+								<Text style={styles.CaSiTop}>{this.props.playList[this.props.currentSongNum].item.singer_name}</Text>
+								<Text></Text>
 							</View>
 						}
 						
 						<View style={{flexDirection:'row'}}>
-							<Text>{this.state.currentTime}</Text>
+							<Text style={styles.TieuDe}>{this.state.currentTime}</Text>
 					   		<Slider 
-					   			style={{width:Dimensions.get('window').width-70}}
+					   			style={{width:Dimensions.get('window').width-67}}
 					   			step={1}
 					   			value={this.state.sliderValue}
 					   			minimumValue={0}
 					   			maximumValue={this.state.duration}
 					   			onValueChange={val=>this.seekTo(val)}
+
 					   			/>
-					   		<Text>{this.secondToTime(Math.round(this.state.duration))}</Text>
+					   		<Text style={styles.TieuDe}>{this.secondToTime(Math.round(this.state.duration))}</Text>
 						</View>
 				   		
 
@@ -111,12 +113,14 @@ class Mp3PlayerScreen extends Component<Props> {
 		//console.log(key);
 		this.props.dispatch({type:'CHANG_CURRENT_SONG_ON_PLAYLIST',currentSongNum:key});
 		this.props.dispatch({type:'LOAD_SONG'});
+
+		this.setState({duration:this.props.whoosh.getDuration()});
 	}
 	componentWillMount()
 	{
 		if(this.props.whoosh!=='')
 		{
-			this.setState({duration:this.props.whoosh.getDuration()});
+			//this.setState({duration:this.props.whoosh.getDuration()});
 
 
 		}
@@ -159,7 +163,7 @@ class Mp3PlayerScreen extends Component<Props> {
 	{	
 		this.props.dispatch({type:'NEXT'});
 		this.props.dispatch({type:'LOAD_SONG'});
-
+		//this.setState({duration:this.props.whoosh.getDuration()});
 	}
 	
 	onPressStart()
@@ -197,6 +201,7 @@ class Mp3PlayerScreen extends Component<Props> {
 		try {
 			this.props.whoosh.getCurrentTime((seconds) =>{
 				this.setState({currentTime:this.secondToTime(Math.round(seconds)),sliderValue:seconds});
+				this.setState({duration:this.props.whoosh.getDuration()});
 				
 			});    
 
@@ -243,6 +248,7 @@ function mapStateToProps(state)
 		isPlaying:state.isPlaying,
 		isPaused:state.isPaused,
 		currentSongNum:state.currentSongNum,
+		//duration:state.duration,
 		state:state,
 	}
 }
@@ -266,7 +272,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize:16,
   },
+  TieuDeTop:{
+  	color:'black',
+    fontWeight: 'bold',
+    fontSize:16,
+    alignSelf : "center",
+  },
   CaSi:{
   	color:'black'
+  },
+  CaSiTop:{
+  	color:'black',
+  	alignSelf : "center",
   },
 });
