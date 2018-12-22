@@ -83,13 +83,26 @@ Có giá trị  player.peConfig.xmlURL là một đường dẫn đến một tr
 </tracklist>
 ```
 Trong thẻ Location sẽ là Đường dẫn source file cần tìm.
+
 2. Đối với Video cũng tương tự.
+
 3. Đối với Item trong trang chủ: 
+
 Website NCT quản lí từng item theo ID. Ví dụ Danh sách Playlist "Nghe gì hôm nay" sẽ nằm trong class có id: ngheGiHomNay. Chỉ cần sử dụng cheerio lọc theo class id sẽ thu được thứ cần tìm, 
+
 4. Đối với Chức năng tìm kiếm:
+
 https://www.nhaccuatui.com/tim-kiem/bai-hat?q={query}&b=keyword&l=tat-ca&s=default
 Chỉ cần fetch() url có query như trên sẽ ra được danh sách kết quả trả về. 
 Lọc theo class id='sn_search_single_song' để lấy từng item.
+
+## Định hướng phát triển trong tương lai
+Phát triển thêm các chức năng
+- Lưu playlist
+- Download Video, Mp3 File, PlayList
+- Crawl Lyric bài hát
+- Animation đẹp hơn
+
 ## Package sử dụng:
 
     "cheerio-without-node-native": "0.20.2",
