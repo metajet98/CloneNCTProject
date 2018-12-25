@@ -23,7 +23,7 @@ export const RootStack = createStackNavigator(
     	navigationOptions:
     		{
                 header: null
-        	}
+        }
     },
     Search:SearchScreen,
     Mp3Player:Mp3PlayerScreen,

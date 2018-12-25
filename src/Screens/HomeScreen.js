@@ -163,6 +163,7 @@ class HomeScreen extends Component<Props> {
               </View>
 
               <View style={{flex:1}}>
+              
               <Button title="Pause"
                   color="#841584"
                   onPress={()=>{
