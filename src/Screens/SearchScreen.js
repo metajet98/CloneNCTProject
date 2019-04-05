@@ -519,6 +519,7 @@ class SearchScreen extends Component<Props> {
                  
                 {this.state.currentTab.all&&
                   <ScrollView>
+                  <View>
                   {this.state.searchSongList.length>0?
                     <View>
                         <Text style={styles.labelText}>Bài hát</Text>
@@ -579,7 +580,7 @@ class SearchScreen extends Component<Props> {
                     </View>:
                     null
                   }  
-                    
+                  </View>  
                     
                   </ScrollView>
                 } 

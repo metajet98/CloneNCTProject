@@ -116,12 +116,14 @@ class HomeScreen extends Component<Props> {
   }
   async playSong(item){
     
-        
+    console.log('play song clicked!');
     if (!this.props.isLoading) {
       this.props.dispatch({type:'IS_LOADING_TRUE'});
       this.props.dispatch({type:'CLEAR_PLAYER'});
+      console.log(item.link);
       await Helper.getMp3Source(item.link)
       .then(returnResult=>{
+        console.log(returnResult);
         this.props.dispatch({type:'ADD_SONG_TO_FIRST_PLAYLIST',item:item,mp3Source:returnResult});
         this.props.dispatch({type:'IS_LOADING_FALSE'});
       })

@@ -33,16 +33,17 @@ export default class Helper
 
 	}
 	static async getMp3Source(url){//lay link source mp3 tu url bai hat
+		console.log('get mp3 '+url);
 		var xmlUrl=await this.getXmlUrl(url);//tu link bai hat, lay link xml
 		let response = await fetch(xmlUrl);
 	    let htmlString = await response.text();
 	    var returnResult;
-	    //console.log(htmlString);
+	    console.log(htmlString);
 	    const $ = cheerio.load(htmlString,{
 	    	normalizeWhitespace: true,
     		xmlMode: true
 	    });
-	    //console.log($.xml());
+	    console.log($.xml());
 
 	    var parseString = require('react-native-xml2js').parseString;//thu vien chuyen xml to json
 		var xml =$.xml();
@@ -51,7 +52,7 @@ export default class Helper
 			returnResult=returnResult.split(' ').join('');
 			returnResult=returnResult.split('\n').join('');
 
-			//console.log(returnResult);
+			console.log(returnResult);
 		    
 		});
 
@@ -69,10 +70,11 @@ export default class Helper
 	    //console.log(htmlString);
 	    const $ = cheerio.load(htmlString);
 	    const temp=$(".playing_absolute");
+	    console.log(temp);
 	    //console.log(temp.get(0).childNodes[7].childNodes[0].data);
 	    var firstvariable = "player.peConfig.xmlURL = ";
 	    var secondvariable = ";n                                player.peConfig.defaultIndex";
-	    var linksource = JSON.stringify(temp.get(0).childNodes[7].childNodes[0].data);
+	    var linksource = JSON.stringify(temp.get(0).childNodes[13].childNodes[0].data);
 	    linksource=linksource.split('"').join('');
 	    linksource = linksource.replace(/\n|\r|\\/g, "");
 
